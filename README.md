@@ -1,2 +1,2 @@
-# i-am-ghost
-A small ghost storage service
+# I Am Ghost
+A small storage service for storing steps in ghosts and replays.
