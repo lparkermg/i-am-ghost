@@ -1,8 +1,9 @@
 using NUnit.Framework;
+using IAmGhost.Services;
 
 namespace IAmGhost.Tests;
 
-public class Tests
+public class JsonFileGhostServiceTests
 {
     [SetUp]
     public void Setup()
@@ -10,7 +11,7 @@ public class Tests
     }
 
     [Test]
-    public void Test1()
+    public void AddStep_GivenEmptyGuid_ThrowsArgumentException()
     {
         Assert.Pass();
     }
