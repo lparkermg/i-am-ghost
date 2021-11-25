@@ -78,4 +78,42 @@ public class JsonFileGhostService : IGhostService
             return stepNumber;
         }
     }
+
+    public async Task<GhostData?> Get(Guid ghostId)
+    {
+        if (ghostId == Guid.Empty)
+        {
+            throw new ArgumentException("Id must not be empty");
+        }
+
+        var path = Path.Combine(_basePath, $"{ghostId}.json");
+        try
+        {
+            using (var file = File.OpenRead(path))
+            {
+                return await JsonSerializer.DeserializeAsync<GhostData>(file);
+            }
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    public async Task<StepData?> GetStep(Guid ghostId, int stepId)
+    {
+        if (ghostId == Guid.Empty)
+        {
+            throw new ArgumentException("Id must not be empty");
+        }
+
+        if (stepId < 0)
+        {
+            throw new ArgumentException("StepId must not be negative");
+        }
+
+        var ghost = await Get(ghostId);
+
+        return ghost?.Steps[stepId];
+    }
 }
