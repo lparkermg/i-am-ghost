@@ -30,4 +30,40 @@ public class GhostController : ControllerBase
             return NotFound();
         }
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        try
+        {
+            var ghost = await _ghostService.Get(id);
+            return ghost == null ? NotFound() : Ok(ghost);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
+        catch
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpGet("/{id}/{stepId}")]
+    public async Task<IActionResult> GetStep(Guid id, int stepId)
+    {
+        try
+        {
+            var step = await _ghostService.GetStep(id, stepId);
+            return step == null ? NotFound() : Ok(step);
+        }
+        catch (ArgumentException)
+        {
+            return BadRequest();
+        }
+        catch
+        {
+            return NotFound();
+        }
+    }
 }
