@@ -4,11 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IAmGhost.Controllers;
 
+/// <summary>
+/// The api controller for the <see cref="IGhostService"/>.
+/// </summary>
 [ApiController]
 [Route("[controller]")]
 public class GhostController : ControllerBase
 {
     private readonly IGhostService _ghostService;
+
+    /// <summary>
+    /// Initialises the <see cref="GhostController"/> class.
+    /// </summary>
+    /// <param name="ghostService">The implementation of <see cref="IGhostService"/> to use.</param>
     public GhostController(IGhostService ghostService)
     {
         _ghostService = ghostService;

@@ -8,12 +8,20 @@ using System.Text.Json;
 
 namespace IAmGhost.Services;
 
+/// <summary>
+/// Json File implementation for <see cref="IGhostService"/>.
+/// </summary>
 public class JsonFileGhostService : IGhostService
 {
     private readonly string _basePath;
 
+    /// <summary>
+    /// Initialises the <see cref="JsonFileGhostService"/> class.
+    /// </summary>
+    /// <param name="basePath">The base path to store the json files.</param>
     public JsonFileGhostService(string basePath) => _basePath = basePath;
 
+    /// <inheritdoc />
     public async Task<int> AddStep(Guid ghostId, string stepData)
     {
         if (ghostId == Guid.Empty)
@@ -79,6 +87,7 @@ public class JsonFileGhostService : IGhostService
         }
     }
 
+    /// <inheritdoc />
     public async Task<GhostData?> Get(Guid ghostId)
     {
         if (ghostId == Guid.Empty)
@@ -100,6 +109,7 @@ public class JsonFileGhostService : IGhostService
         }
     }
 
+    /// <inheritdoc />
     public async Task<StepData?> GetStep(Guid ghostId, int stepId)
     {
         if (ghostId == Guid.Empty)
