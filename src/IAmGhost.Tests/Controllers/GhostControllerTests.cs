@@ -6,6 +6,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
+using IAmGhost.Requests;
 
 namespace IAmGhost.Tests.Controllers;
 
@@ -30,7 +31,10 @@ public class GhostControllerTests
     {
         _ghostServiceMock.Setup(s => s.AddStep(It.IsAny<Guid>(), It.IsAny<string>())).Throws<ArgumentException>();
 
-        var response = await _controller.Post(Guid.Empty,"Test");
+        var response = await _controller.Post(Guid.Empty, new AddRequest
+        {
+            Snapshot = "Test",
+        });
 
         Assert.That(response, Is.TypeOf<BadRequestResult>());
     }
@@ -38,9 +42,13 @@ public class GhostControllerTests
     [TestCase("")]
     [TestCase(null)]
     [TestCase("    ")]
-    public async Task Post_GivenNullEmptyOrWhitespaceContent_ReturnsBadRequest(string content)
+    public async Task Post_GivenNullEmptyOrWhitespaceContent_ReturnsBadRequest(string data)
     {
         _ghostServiceMock.Setup(s => s.AddStep(It.IsAny<Guid>(), It.IsAny<string>())).Throws<ArgumentException>();
+        var content = new AddRequest
+        {
+            Snapshot = data,
+        };
 
         var response = await _controller.Post(Guid.NewGuid(), content);
 
@@ -51,7 +59,10 @@ public class GhostControllerTests
     public async Task Post_GivenValidContent_ReturnsCreatedWithLocationHeaderToStep()
     {
         var id = Guid.NewGuid();
-        var response = await _controller.Post(id, "Test");
+        var response = await _controller.Post(id, new AddRequest
+        {
+            Snapshot = "Test",
+        });
 
         Assert.That(response, Is.TypeOf<CreatedResult>());
 
@@ -64,7 +75,10 @@ public class GhostControllerTests
     {
         _ghostServiceMock.Setup(s => s.AddStep(It.IsAny<Guid>(), It.IsAny<string>())).Throws<Exception>();
 
-        var response = await _controller.Post(Guid.Empty, "Test");
+        var response = await _controller.Post(Guid.Empty, new AddRequest
+        {
+            Snapshot = "Test",
+        });
 
         Assert.That(response, Is.TypeOf<NotFoundResult>());
     }
