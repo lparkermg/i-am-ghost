@@ -1,0 +1,15 @@
+version: "3.8"
+volumes:
+  i_am_ghost_storage:
+services:
+  api:
+    build:
+      context: ./
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:80"
+    environment:
+      - I_AM_GHOST_BASESTORAGEPATH=/ghosts
+    volumes:
+      - i_am_ghost_storage:/ghosts:rw
+
