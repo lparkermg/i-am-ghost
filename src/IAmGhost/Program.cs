@@ -5,6 +5,8 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json");
+builder.Configuration.AddEnvironmentVariables("I_AM_GHOST_");
+
 var baseStorage = builder.Configuration.GetValue<string>("BaseStoragePath");
 
 // Add services to the container.
@@ -25,8 +27,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
