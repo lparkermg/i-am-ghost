@@ -1,8 +1,15 @@
 using IAmGhost.Interfaces;
 using IAmGhost.Services;
+using Microsoft.Extensions.Hosting.WindowsServices;
 using Microsoft.OpenApi.Models;
 
-var builder = WebApplication.CreateBuilder(args);
+var options = new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = WindowsServiceHelpers.IsWindowsService() ? AppContext.BaseDirectory : default,
+};
+
+var builder = WebApplication.CreateBuilder(options);
 
 builder.Configuration.AddJsonFile("appsettings.json");
 builder.Configuration.AddEnvironmentVariables("I_AM_GHOST_");
@@ -18,6 +25,13 @@ builder.Services.AddSwaggerGen(o =>
 {
     o.SwaggerDoc("v1", new OpenApiInfo { Title = "IAmGhost Snapshot API", Version = "v1" });
 });
+
+if(!args.Any(arg => arg.Equals("--console")))
+{
+    builder.Host.UseWindowsService(options => options.ServiceName = "I Am Ghost");
+}
+
+builder.WebHost.UseUrls("http://localhost:7012/");
 
 var app = builder.Build();
 
