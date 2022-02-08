@@ -15,8 +15,14 @@ Requires .net 6+ to be installed
 
 Add `build.ps1 <Version> <Output Location>` to your build process replacing both with the relevant values. Or code up your own script to build it.
 
+### Running as a service (Currently Windows)
+
+Once built, you can install/uninstall via powershell using this: https://docs.microsoft.com/en-us/dotnet/framework/windows-services/how-to-install-and-uninstall-services
+
 ## Future Plans
 
-- Ability to run as a service.
-- Adding support for cloud storage services.
 - Adding support for SQL and NoSQL storage solutions.
+- Adding an actual user guide.
+- Adding support for cloud storage services.
+
+
