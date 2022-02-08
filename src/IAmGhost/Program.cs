@@ -31,7 +31,7 @@ if(!args.Any(arg => arg.Equals("--console")))
     builder.Host.UseWindowsService(options => options.ServiceName = "I Am Ghost");
 }
 
-builder.WebHost.UseUrls("http://localhost:7012/");
+builder.WebHost.UseUrls(builder.Configuration.GetValue<string[]>("HostUrls"));
 
 var app = builder.Build();
 
